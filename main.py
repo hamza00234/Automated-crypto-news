@@ -35,15 +35,7 @@ logging.info(f"Python executable: {sys.executable}")
 logging.info(f"Python version: {sys.version}")
 
 # Load environment variables from the script's directory
-env_path = os.path.join(SCRIPT_DIR, '.env')
-logging.info(f"Looking for .env file at: {env_path}")
-
-if not os.path.exists(env_path):
-    logging.error(f"Environment file not found at: {env_path}")
-    sys.exit(1)
-
-load_dotenv(env_path)
-logging.info("Environment variables loaded")
+logging.info("Loading environment variables from system...")
  
 # Verify required environment variables
 required_env_vars = ['NEWS_API_KEY', 'EMAIL_SENDER', 'EMAIL_PASSWORD', 'EMAIL_RECIPIENT']
