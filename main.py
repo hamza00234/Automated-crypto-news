@@ -50,7 +50,7 @@ required_env_vars = ['NEWS_API_KEY', 'EMAIL_SENDER', 'EMAIL_PASSWORD', 'EMAIL_RE
 missing_vars = [var for var in required_env_vars if not os.getenv(var)]
 if missing_vars:
     logging.error(f"Missing required environment variables: {', '.join(missing_vars)}")
-    sys.exit(1)
+    sys.exit(1) 
 else:
     logging.info("All required environment variables are present")
 
