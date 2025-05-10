@@ -44,7 +44,7 @@ if not os.path.exists(env_path):
 
 load_dotenv(env_path)
 logging.info("Environment variables loaded")
-
+ 
 # Verify required environment variables
 required_env_vars = ['NEWS_API_KEY', 'EMAIL_SENDER', 'EMAIL_PASSWORD', 'EMAIL_RECIPIENT']
 missing_vars = [var for var in required_env_vars if not os.getenv(var)]
