@@ -40,7 +40,7 @@ logging.info("Loading environment variables from system...")
 # Verify required environment variables
 required_env_vars = ['NEWS_API_KEY', 'EMAIL_SENDER', 'EMAIL_PASSWORD', 'EMAIL_RECIPIENT']
 missing_vars = [var for var in required_env_vars if not os.getenv(var)]
-if missing_vars:
+if missing_vars: 
     logging.error(f"Missing required environment variables: {', '.join(missing_vars)}")
     sys.exit(1) 
 else:
