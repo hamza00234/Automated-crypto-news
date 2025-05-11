@@ -10,7 +10,7 @@ on:
 jobs:
   send-mail:
     runs-on: windows-latest  # Needed for py command
-
+    timeout-minutes: 4320    # Timeout after 72 hours (3 days)
 
     env:
       EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
@@ -29,3 +29,11 @@ jobs:
 
       - name: Run mail script
         run: py main.py
+
+      - name: Trigger next run after timeout or failure
+        if: ${{ failure() }}  # This triggers the step only if the job fails or times out
+        run: |
+          echo "Job timed out or failed, re-triggering the workflow"
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"event_type": "trigger-next-run"}' \
+          https://api.github.com/repos/${{ github.repository }}/dispatches
