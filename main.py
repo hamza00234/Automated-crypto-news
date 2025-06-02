@@ -14,7 +14,8 @@ import sys
 import traceback
 
 # Load environment variables
-load_dotenv()
+if not os.getenv("RAILWAY_ENV"):
+    load_dotenv()
 
 # Get script directory for logging
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
