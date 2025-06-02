@@ -55,7 +55,7 @@ except Exception as e:
 COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
 CRYPTO_SYMBOLS = ['bitcoin', 'ethereum', 'celestia', 'solana']
 MAX_RETRIES = 3
-RETRY_DELAY = 5
+RETRY_DELAY = 20
 
 
 def make_api_request(url: str, retries: int = MAX_RETRIES) -> Dict[str, Any]:
