@@ -13,15 +13,14 @@ from typing import List, Dict, Any
 import sys
 import traceback
 
-# Load environment variables
+# Load .env only if not running on Railway
 if not os.getenv("RAILWAY_ENV"):
     load_dotenv()
 
-# Get script directory for logging
+# Setup logging to file and console
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 log_file = os.path.join(SCRIPT_DIR, 'crypto_report.log')
 
-# Configure logging
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -31,7 +30,7 @@ logging.basicConfig(
     ]
 )
 
-# Required environment variables
+# Check required env vars
 required_env_vars = [
     'NEWS_API_KEY',
     'EMAIL_SENDER',
@@ -81,7 +80,7 @@ def get_crypto_news() -> List[Dict[str, Any]]:
             sort_by='publishedAt',
             page_size=10
         )
-        return news['articles']
+        return news.get('articles', [])
     except Exception as e:
         logging.error(f"Error fetching crypto news: {e}")
         return []
@@ -95,7 +94,7 @@ def get_political_news() -> List[Dict[str, Any]]:
             sort_by='publishedAt',
             page_size=5
         )
-        return news['articles']
+        return news.get('articles', [])
     except Exception as e:
         logging.error(f"Error fetching political news: {e}")
         return []
@@ -158,7 +157,10 @@ def format_email_content(crypto_news, political_news, market_summary):
     html += "<h3>Crypto News</h3><ul>"
     if crypto_news:
         for article in crypto_news:
-            html += f"<li><a href='{article['url']}'>{article['title']}</a><br><small>{article['description']}</small></li>"
+            title = article.get('title', 'No title')
+            url = article.get('url', '#')
+            description = article.get('description', '')
+            html += f"<li><a href='{url}'>{title}</a><br><small>{description}</small></li>"
     else:
         html += "<p>No crypto news available.</p>"
     html += "</ul>"
@@ -166,7 +168,10 @@ def format_email_content(crypto_news, political_news, market_summary):
     html += "<h3>Political News</h3><ul>"
     if political_news:
         for article in political_news:
-            html += f"<li><a href='{article['url']}'>{article['title']}</a><br><small>{article['description']}</small></li>"
+            title = article.get('title', 'No title')
+            url = article.get('url', '#')
+            description = article.get('description', '')
+            html += f"<li><a href='{url}'>{title}</a><br><small>{description}</small></li>"
     else:
         html += "<p>No political news available.</p>"
     html += "</ul></body></html>"
