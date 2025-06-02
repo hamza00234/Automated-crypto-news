@@ -12,8 +12,6 @@ import logging
 from typing import List, Dict, Any
 import sys
 import traceback
-from flask import Flask
-from threading import Thread
 
 # Load environment variables
 load_dotenv()
@@ -215,17 +213,5 @@ def run_scheduler():
         time.sleep(60)
 
 
-# Flask for optional API or uptime check (optional, non-blocking)
-app = Flask(__name__)
-
-
-@app.route("/")
-def index():
-    return "Crypto Report Service is Running!"
-
-
 if __name__ == "__main__":
-    Thread(target=run_scheduler).start()
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
-
+    run_scheduler()
