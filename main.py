@@ -198,6 +198,10 @@ def send_email(content: str):
 
 
 def generate_and_send_report():
+    missing_vars = [var for var in required_env_vars if not os.getenv(var)]
+    if missing_vars:
+        logging.error(f"Missing vars: {missing_vars}")
+        return
     logging.info("Generating and sending report...")
     try:
         crypto_news = get_crypto_news()
